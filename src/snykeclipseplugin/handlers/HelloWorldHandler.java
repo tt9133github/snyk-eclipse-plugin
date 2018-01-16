@@ -9,25 +9,22 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.resources.IProject;
 
-/** <b>Warning</b> : 
-As explained in <a href="http://wiki.eclipse.org/Eclipse4/RCP/FAQ#Why_aren.27t_my_handler_fields_being_re-injected.3F">this wiki page</a>, it is not recommended to define @Inject fields in a handler. <br/><br/>
-<b>Inject the values in the @Execute methods</b>
-*/
 public class HelloWorldHandler {
 
 	@Execute
 	public void execute(@Named(IServiceConstants.ACTIVE_SHELL) Shell s) {
 		SnykAPI snyk = new SnykAPI("3b5434ee-eb0c-4535-a84e-b0573f03df70"); // dev auth token
 		String result = "Snyk test results for workspace projects:\n\n";
-		// iterate over projects in workspace
+
 		for (IProject project: ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
-			// fetch path to main pom.xml file of project
-			final String pomXmlPath = project.getFile("pom.xml").getFullPath().toOSString();
-			// run via API
+			final String pomXmlPath = project.getFile("pom.xml").getRawLocation().toString();
 			int projectVulns = 0;
+			
 			try {
+				System.out.println("Checking vulns for: " + pomXmlPath);
 				projectVulns = snyk.GetVulnCountFromPOMFile(pomXmlPath);
 			} catch (Exception e) {
+				MessageDialog.openInformation(s, "Snyk", "Error on API call: " + e);
 				System.out.println("Error on API call: " + e);
 			}
 			

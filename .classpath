@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry exported="true" kind="lib" path="javassist-3.16.1-GA.jar"/>
+	<classpathentry exported="true" kind="lib" path="aopalliance-repackaged-2.2.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="hk2-api-2.2.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="hk2-locator-2.2.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="hk2-utils-2.2.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="javax.inject-2.2.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="jersey-guava-2.8.jar"/>
+	<classpathentry exported="true" kind="lib" path="jersey-media-json-jackson-2.8.jar"/>
+	<classpathentry exported="true" kind="lib" path="osgi-resource-locator-1.0.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="jersey-common-2.8.jar"/>
+	<classpathentry exported="true" kind="lib" path="javax.ws.rs-api-2.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="jersey-client-2.8.jar"/>
+	<classpathentry exported="true" kind="lib" path="json-simple-1.1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
 		<attributes>
 			<attribute name="module" value="true"/>
@@ -7,8 +20,5 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="jersey-client-2.8.jar"/>
-	<classpathentry kind="lib" path="json-simple-1.1.jar"/>
-	<classpathentry kind="lib" path="javax.ws.rs-api-2.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

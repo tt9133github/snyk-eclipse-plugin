@@ -12,3 +12,18 @@ Require-Bundle: javax.inject,
  org.eclipse.equinox.registry
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: javax.annotation;version="1.2.0"
+Bundle-ClassPath: javax.ws.rs-api-2.0.jar,
+ jersey-client-2.8.jar,
+ json-simple-1.1.jar,
+ .,
+ jersey-common-2.8.jar,
+ aopalliance-repackaged-2.2.0.jar,
+ hk2-api-2.2.0.jar,
+ hk2-locator-2.2.0.jar,
+ hk2-utils-2.2.0.jar,
+ javax.inject-2.2.0.jar,
+ jersey-guava-2.8.jar,
+ jersey-media-json-jackson-2.8.jar,
+ osgi-resource-locator-1.0.1.jar,
+ javassist-3.16.1-GA.jar
+Export-Package: snykeclipseplugin.handlers
