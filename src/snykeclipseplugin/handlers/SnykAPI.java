@@ -1,11 +1,12 @@
 package snykeclipseplugin.handlers;
 
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-import java.net.URLEncoder;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
@@ -57,7 +58,17 @@ public class SnykAPI {
         return responseBody;
     }
 
-    public String TestPOMFile(String pathToFile) throws FailedAPIRequestExecption, IOException {
+    public int GetVulnCountFromPOMFile(String pathToFile) throws FailedAPIRequestExecption, IOException, ParseException {
+        String vulnJSON = this.GetPOMFileVulns(pathToFile);
+        JSONParser parser = new JSONParser();
+        Object obj = parser.parse(vulnJSON);
+        JSONObject jsonObject = (JSONObject) obj;
+        Long vulnCount = (Long) jsonObject.get("dependencyCount");
+
+        return vulnCount.intValue();
+    }
+
+    private String GetPOMFileVulns(String pathToFile) throws FailedAPIRequestExecption, IOException, ParseException {
         String url = this.apiEndpoing  + "?repository=" + this.mvnRepository;
         String payload = "{\"encoding\":\"plain\",\"files\":{\"target\":{\"contents\":\"" + POM_XML_CONTENT_PLACEHOLDER + "\"}}}";
         FileReader fr = new FileReader(pathToFile);
@@ -72,7 +83,6 @@ public class SnykAPI {
 
         pomXMLContent = pomXMLContent.replace("\"", "\\\"");
         payload = payload.replace(POM_XML_CONTENT_PLACEHOLDER, pomXMLContent);
-        System.out.println(payload);
 
         Response response = this.prepareAPICall(url).post(Entity.json(payload));
         String responseBody = response.readEntity(String.class);
