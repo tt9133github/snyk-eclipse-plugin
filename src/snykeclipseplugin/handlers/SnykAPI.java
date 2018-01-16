@@ -19,7 +19,7 @@ public class SnykAPI {
     private final String POM_XML_CONTENT_PLACEHOLDER = "{{POM_XML_CONTENT}}";
 
     private String authToken = "";
-    private String apiEndpoing = "https://dev.snyk.io/api/v1/test/maven";
+    private String apiEndpoint = "https://dev.snyk.io/api/v1/test/maven";
     private String mvnRepository = "https://repo1.maven.org/maven2";
     private Client client;
 
@@ -34,15 +34,15 @@ public class SnykAPI {
         this.mvnRepository = mvnRepository;
     }
 
-    public SnykAPI(String authToken, String mvnRepository, String apiEndpoing) {
+    public SnykAPI(String authToken, String mvnRepository, String apiEndpoint) {
         this.client = ClientBuilder.newClient();
         this.authToken = authToken;
-        this.apiEndpoing = apiEndpoing;
+        this.apiEndpoint = apiEndpoint;
         this.mvnRepository = mvnRepository;
     }
 
     public String TestPublicPackageByGID(String groupId, String artifactId, String version) throws FailedAPIRequestExecption {
-        String url = this.apiEndpoing + "/" + groupId
+        String url = this.apiEndpoint + "/" + groupId
                 + "/" + artifactId
                 + "/" + version
                 + "?repository=" + this.mvnRepository;
@@ -69,7 +69,7 @@ public class SnykAPI {
     }
 
     private String GetPOMFileVulns(String pathToFile) throws FailedAPIRequestExecption, IOException, ParseException {
-        String url = this.apiEndpoing  + "?repository=" + this.mvnRepository;
+        String url = this.apiEndpoint  + "?repository=" + this.mvnRepository;
         String payload = "{\"encoding\":\"plain\",\"files\":{\"target\":{\"contents\":\"" + POM_XML_CONTENT_PLACEHOLDER + "\"}}}";
         FileReader fr = new FileReader(pathToFile);
         BufferedReader br = new BufferedReader(fr);
@@ -81,6 +81,8 @@ public class SnykAPI {
             pomXMLContent = pomXMLContent.concat(currentLine + "\\n");
         }
 
+        br.close();
+        
         pomXMLContent = pomXMLContent.replace("\"", "\\\"");
         payload = payload.replace(POM_XML_CONTENT_PLACEHOLDER, pomXMLContent);
 

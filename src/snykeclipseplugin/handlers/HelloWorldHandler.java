@@ -17,15 +17,23 @@ public class HelloWorldHandler {
 
 	@Execute
 	public void execute(@Named(IServiceConstants.ACTIVE_SHELL) Shell s) {
-		String pathsScanned = "";
+		SnykAPI snyk = new SnykAPI("3b5434ee-eb0c-4535-a84e-b0573f03df70"); // dev auth token
+		String result = "Snyk test results for workspace projects:\n\n";
 		// iterate over projects in workspace
 		for (IProject project: ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
 			// fetch path to main pom.xml file of project
 			final String pomXmlPath = project.getFile("pom.xml").getFullPath().toOSString();
 			// run via API
-			pathsScanned += pomXmlPath + ", ";
+			int projectVulns = 0;
+			try {
+				projectVulns = snyk.GetVulnCountFromPOMFile(pomXmlPath);
+			} catch (Exception e) {
+				System.out.println("Error on API call: " + e);
+			}
+			
+			result += pomXmlPath + ": " + projectVulns + "\n";
 		}
 
-		MessageDialog.openInformation(s, "Snyk", "Paths scanned: " + pathsScanned);
+		MessageDialog.openInformation(s, "Snyk", result);
 	}
 }
