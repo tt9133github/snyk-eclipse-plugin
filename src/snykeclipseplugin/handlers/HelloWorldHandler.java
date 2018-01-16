@@ -24,7 +24,7 @@ public class HelloWorldHandler {
 			final String pomXmlPath = project.getFile("pom.xml").getFullPath().toOSString();
 			// run via API
 			pathsScanned += pomXmlPath + ", ";
-		};
+		}
 
 		MessageDialog.openInformation(s, "Snyk", "Paths scanned: " + pathsScanned);
 	}
